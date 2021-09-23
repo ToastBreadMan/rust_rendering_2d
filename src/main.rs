@@ -5,21 +5,21 @@ use winit::{
 };
 use pixels::{Error, Pixels, SurfaceTexture};
 use winit::dpi::LogicalSize;
-mod models;
-use models::Rectangle::Rect;
+use models::{Rectangle::Rect, World::World};
 
 fn main() {
-    let WIDTH = 600;
-    let HEIGHT = 600;
+    let WIDTH:u32 = 600;
+    let HEIGHT:u32 = 600;
     let size = LogicalSize::new(WIDTH, HEIGHT);
     let event_loop = EventLoop::new();
+    let world = World::new(&WIDTH, &HEIGHT);
     let window = WindowBuilder::new().with_inner_size(size).with_max_inner_size(size).build(&event_loop).unwrap();
     let mut pixels = {
         let window_size = window.inner_size();
         let surface_texture = SurfaceTexture::new(window_size.width, window_size.height, &window);
         Pixels::new(WIDTH, HEIGHT, surface_texture).unwrap()
     };
-    let rect:Rect = Rect::new(1, 100, 100, 200, WIDTH as usize,HEIGHT as usize);
+    let rect:Rect = Rect::new(300, 400, 400, 500, WIDTH as usize,HEIGHT as usize);
     event_loop.run(move |event, _, control_flow| {
         *control_flow = ControlFlow::Wait;
         if let Event::RedrawRequested(_) = event{ 

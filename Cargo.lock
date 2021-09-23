@@ -713,6 +713,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "models"
+version = "0.1.0"
+
+[[package]]
 name = "naga"
 version = "0.6.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -878,6 +882,7 @@ checksum = "692fcb63b64b1758029e0a96ee63e049ce8c5948587f2f7208df04625e5f6b56"
 name = "opengl_app"
 version = "0.1.0"
 dependencies = [
+ "models",
  "pixels",
  "winit",
 ]
