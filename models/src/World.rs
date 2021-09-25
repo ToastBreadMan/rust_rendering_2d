@@ -7,7 +7,7 @@ pub trait Funnel{
 pub struct World {
     width:usize,
     height:usize,
-    world:Vec<Box<Funnel>>
+    pub world:Vec<Box<Funnel>>
 }
 
 impl World {
@@ -16,10 +16,10 @@ impl World {
         let proc_height = *height as usize;
         World {width:proc_width, height:proc_height, world:Vec::new()}
     }
-    fn add(&mut self, object:Box<Funnel>){
+    pub fn add(&mut self, object:Box<Funnel>){
         self.world.push(object);   
     }
-    fn draw(&self, frame:&mut [u8]){
+    pub fn update(&self, frame:&mut [u8]){
         for (i, pixel) in frame.chunks_exact_mut(4).enumerate() {
             let x = i % self.width;
             let y = i / self.height;

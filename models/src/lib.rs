@@ -8,3 +8,6 @@ mod tests {
 
 pub mod Rectangle;
 pub mod World;
+pub mod Circle;
+pub mod Triangle;
+pub mod Vector;
