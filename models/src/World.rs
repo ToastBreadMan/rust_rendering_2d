@@ -19,6 +19,11 @@ impl World {
     pub fn add(&mut self, object:Box<Funnel>){
         self.world.push(object);   
     }
+
+    pub fn change(&mut self, index: usize, object:Box<Funnel>)->Box<Funnel> {
+        let val = std::mem::replace(&mut self.world[index], object);
+        val
+    }
     pub fn update(&self, frame:&mut [u8]){
         for (i, pixel) in frame.chunks_exact_mut(4).enumerate() {
             let x = i % self.width;

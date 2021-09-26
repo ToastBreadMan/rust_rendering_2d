@@ -1,18 +1,18 @@
 use crate::World::Funnel;
 use crate::Vector::Vec2d;
 
-pub struct Triangle { 
+pub struct Polygon { 
     pub vectors: Vec<Vec2d>,
-    color:Box<[u8]>,
+    pub color:Box<[u8]>,
     min_x: isize,
     min_y:isize,
     max_x:isize,
     max_y:isize,
-    width: usize
+    height: usize
 }
 
-impl Triangle {
-    pub fn new (vectors:Vec<Vec2d>,color:Box<[u8]>, width:usize)->Triangle {
+impl Polygon {
+    pub fn new (vectors:Vec<Vec2d>,color:Box<[u8]>, height:usize)->Polygon {
         let v1:Vec<Vec2d> = vectors.clone();
         let mut min_x = vectors.get(0).unwrap().x;
         let mut min_y = vectors.get(0).unwrap().y;
@@ -32,7 +32,7 @@ impl Triangle {
                 max_y = vectors.get(i).unwrap().y;
             }
         }
-        Triangle {vectors:v1,color, min_x, min_y, max_x, max_y, width}
+        Polygon {vectors:v1,color, min_x, min_y, max_x, max_y, height}
     }
 
     fn intersect(p0:&Vec2d, p1:&Vec2d, p2:&Vec2d, p3:&Vec2d)->(f32,f32){
@@ -47,7 +47,7 @@ impl Triangle {
     }
 }
 
-impl Funnel for Triangle {
+impl Funnel for Polygon {
     fn draw(&self,x: usize, y: usize)->(bool, Box<[u8]>){ 
         if x < self.max_x as usize && x > self.min_x as usize && y > self.min_y as usize && y < self.max_y as usize{
             let mut intersections:i8 = 0;
@@ -55,7 +55,7 @@ impl Funnel for Triangle {
             let proc_y = y as isize;
             let inp_to_vec = Vec2d{x:proc_x, y:proc_y};
             for (i, value) in self.vectors.iter().enumerate() {
-                let intersects = Triangle::intersect(&inp_to_vec, &Vec2d{x:proc_x, y:self.width as isize}, value, self.vectors.get((i+1)%self.vectors.len()).clone().unwrap());//hardcoded change here with code check if intersect lises behind or in front of point
+                let intersects = Polygon::intersect(&inp_to_vec, &Vec2d{x:proc_x, y:self.height as isize}, value, self.vectors.get((i+1)%self.vectors.len()).clone().unwrap());//hardcoded change here with code check if intersect lises behind or in front of point
                 if intersects.0 < self.max_x as f32 && intersects.0 > self.min_x as f32 && intersects.1 > self.min_y as f32 && intersects.1 < self.max_y as f32 && intersects.1 < y as f32 {
                     intersections += 1;
                 }
