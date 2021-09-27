@@ -27,7 +27,7 @@ fn main() {//use vector
     let mut Polygon:Polygon = Polygon::new(vec![a,b,c,d], Box::new(rgba), HEIGHT as usize);
     world.add(Box::new(Polygon));
     event_loop.run(move |event, _, control_flow| {
-        *control_flow = ControlFlow::Wait;
+        *control_flow = ControlFlow::Poll;
         if let Event::RedrawRequested(_) = event{ 
             a.x += 1;
             world.update(pixels.get_frame());
@@ -41,6 +41,12 @@ fn main() {//use vector
                 event: WindowEvent::CloseRequested,
                 window_id,
             } if window_id == window.id() => *control_flow = ControlFlow::Exit,
+            Event::WindowEvent {
+                event:WindowEvent::KeyboardInput { input, .. },
+                window_id
+            } => {
+                println!("{:?}", input.virtual_keycode.unwrap() == winit::event::VirtualKeyCode::W)
+            }
             _ => (),
         }
         window.request_redraw();
