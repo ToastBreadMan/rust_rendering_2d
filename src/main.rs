@@ -12,7 +12,7 @@ fn main() {//use vector
     let HEIGHT:u32 = 600;
     let size = LogicalSize::new(WIDTH, HEIGHT);
     let event_loop = EventLoop::new();
-    let mut world = World::new(&WIDTH, &HEIGHT);
+    let mut world = World::new(&WIDTH, &HEIGHT, Box::new([0xff,0,0,0xff]));
     let window = WindowBuilder::new().with_inner_size(size).with_max_inner_size(size).build(&event_loop).unwrap();
     let mut pixels = {
         let window_size = window.inner_size();

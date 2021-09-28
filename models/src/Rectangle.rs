@@ -8,11 +8,16 @@ pub struct Rect {
 }
 
 impl Funnel for Rect {
-    fn draw(&self, x: usize, y:usize)->(bool, Box<[u8]>) {
+    fn draw(&self, x: usize, y:usize)->Option<Box<[u8]>> {
             let in_rect: bool = {
                  x < self.p1.x as usize && x > self.p2.x as usize && y > self.p1.x as usize && y < self.p2.y as usize 
             };
-            (in_rect, self.color.clone())
+            if in_rect{
+                Some(self.color.clone())
+            }
+            else {
+                None
+            }
     }
 }
 

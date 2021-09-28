@@ -48,7 +48,7 @@ impl Polygon {
 }
 
 impl Funnel for Polygon {
-    fn draw(&self,x: usize, y: usize)->(bool, Box<[u8]>){ 
+    fn draw(&self,x: usize, y: usize)->Option<Box<[u8]>>{ 
         if x < self.max_x as usize && x > self.min_x as usize && y > self.min_y as usize && y < self.max_y as usize{
             let mut intersections:i8 = 0;
             let proc_x = x as isize;
@@ -61,14 +61,14 @@ impl Funnel for Polygon {
                 }
             }
             if intersections == 1 {
-                (true, self.color.clone())
+                Some(self.color.clone())
             }
             else {
-                (false, self.color.clone())
+                None
             }
         }
         else {
-            (false, self.color.clone())
+            None
         }
     }
 }
