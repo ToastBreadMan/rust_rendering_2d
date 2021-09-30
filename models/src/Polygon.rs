@@ -1,10 +1,11 @@
 use crate::World::Funnel;
 use crate::Vector::Vec2d;
 
+#[derive(Clone)]
 pub struct Polygon { 
     pub vectors: Vec<Vec2d>,
     pub color:Box<[u8]>,
-    min_x: isize,
+    pub min_x: isize,
     min_y:isize,
     max_x:isize,
     max_y:isize,
@@ -33,6 +34,28 @@ impl Polygon {
             }
         }
         Polygon {vectors:v1,color, min_x, min_y, max_x, max_y, height}
+    }
+
+    fn get_min_max(&self, vectors:Vec<Vec2d>) {
+        let v1:Vec<Vec2d> = vectors.clone();
+        let mut min_x = vectors.get(0).unwrap().x;
+        let mut min_y = vectors.get(0).unwrap().y;
+        let mut max_x = vectors.get(0).unwrap().x;
+        let mut max_y = vectors.get(0).unwrap().y;
+        for i in 0..vectors.len() {
+            if vectors.get(i).unwrap().x > max_x {
+                max_x = vectors.get(i).unwrap().x;
+            }
+            if vectors.get(i).unwrap().x < min_x {
+                min_x = vectors.get(i).unwrap().x;
+            }
+            if vectors.get(i).unwrap().y < min_y {
+                min_y = vectors.get(i).unwrap().y;
+            }
+            if vectors.get(i).unwrap().y > max_y {
+                max_y = vectors.get(i).unwrap().y;
+            }
+        }
     }
 
     fn intersect(p0:&Vec2d, p1:&Vec2d, p2:&Vec2d, p3:&Vec2d)->(f32,f32){

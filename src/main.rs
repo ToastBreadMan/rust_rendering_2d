@@ -5,7 +5,7 @@ use winit::{
 };
 use pixels::{Error, Pixels, SurfaceTexture};
 use winit::dpi::LogicalSize;
-use models::{Rectangle::Rect, World::World, Circle::Circle, Polygon::Polygon, Vector::Vec2d};
+use models::{Rectangle::Rect, World::World, Circle::Circle, Polygon::Polygon, Vector::Vec2d, Line::Line};
 
 fn main() {//use vector
     let WIDTH:u32 = 600;
@@ -20,20 +20,17 @@ fn main() {//use vector
         Pixels::new(WIDTH, HEIGHT, surface_texture).unwrap()
     };
     let rgba = [0,0xff,0,0xff];
-    let mut a = Vec2d{x:200, y:500};
+    let mut a = Vec2d{x:100, y:500};
     let mut b = Vec2d{x:200, y:300};
     let mut c = Vec2d{x:600, y:200};
     let d = Vec2d{x:400, y:600};
-    let mut Polygon:Polygon = Polygon::new(vec![a,b,c,d], Box::new(rgba), HEIGHT as usize);
-    world.add(Box::new(Polygon));
     event_loop.run(move |event, _, control_flow| {
         *control_flow = ControlFlow::Poll;
         if let Event::RedrawRequested(_) = event{ 
-            a.x += 1;
+            let l:Line = Line::new(vec![a, b], Box::new(rgba));
+            world.add(Box::new(Polygon::new(vec![a,d,c], Box::new(rgba), HEIGHT as usize)));
+            world.add(Box::new(l));
             world.update(pixels.get_frame());
-            let new_rgba = [0,0xff,0xff,0xff];
-            let cirlce:Circle = Circle::new(a, 50.0, Box::new(new_rgba));
-            world.change(0, Box::new(cirlce));
             pixels.render().unwrap();
         }
         match event {

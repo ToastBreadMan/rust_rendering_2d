@@ -11,3 +11,4 @@ pub mod World;
 pub mod Circle;
 pub mod Polygon;
 pub mod Vector;
+pub mod Line;
